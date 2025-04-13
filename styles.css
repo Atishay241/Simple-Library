@@ -1,0 +1,107 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+
+
+:root {
+    --background-color: #f8f5ef;
+    --card-background: #ffffff;
+    --card-border-strip: #d3c4f3;
+    --header-background: #3a6d6c;
+    --header-text: #f7f3eb;
+    --title-text: #2f4f4f;
+    --author-text: #444444;
+    --icon-color: #333333;
+    --button-color: #ff6b5c;
+}
+
+body {
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+    background-color: var(--background-color);
+    height: 100%;
+}
+
+header {
+    position: relative;
+    background-color: var(--header-background);
+    color: var(--header-text);
+    height: 80px;
+    padding: 0 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+header h1 {
+    position: absolute;
+    left: 15px;
+    font-size: 2rem;
+}
+
+.add {
+    background-color: var(--button-color);
+    padding: 6px 20px;
+    font-size: 1.5rem;
+    border-radius: 8px;
+    transition: transform 0.2s;
+    cursor: pointer;
+    color: white;
+    border: none;
+}
+
+.add:hover {
+    transform: scale(1.1);
+}
+.add:active{
+    transform: scale(1.1);
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 40px;
+    padding: 50px;
+}
+.card {
+    background-color: var(--card-background);
+    border-radius: 12px;
+    box-shadow: -9px 0px var(--card-border-strip);
+    padding: 10px;
+    overflow: hidden;
+}
+
+.card > * {
+    margin: 20px;
+}
+.icon {
+    height: 40px;
+    fill: var(--icon-color);
+}
+
+.btn {
+    border: none;
+    background-color: var(--card-background);
+}
+
+.title {
+    color: var(--title-text);
+    font-size: 1.5rem;
+}
+
+.author , .page {
+    color: var(--author-text);
+    font-size: 1.2rem;
+}
+
+.icons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.title, .author, .page {
+    overflow: auto;
+    white-space: nowrap;
+}
