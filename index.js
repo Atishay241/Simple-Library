@@ -64,33 +64,35 @@ function renderbooks(){
         
         container.appendChild(card);
     })
+
+    const toggle = document.querySelectorAll(".status");
+    toggle.forEach((button)=> {
+        button.addEventListener("click" , ()=>{
+            // console.log("sjndcs");
+            const bookid = button.getAttribute("data-id");
+            const book = myLibrary.find(b => b.id === bookid);
+            if(book){
+                book.isread = !book.isread;
+                renderbooks();
+            }
+        })
+    })
+
+    const del = document.querySelectorAll(".delete");
+    del.forEach((button)=> {
+        button.addEventListener("click" , ()=>{
+            console.log("dmcdcs");
+            const bookid = button.getAttribute("data-id");
+            const book_idx = myLibrary.findIndex(b => b.id === bookid);
+            if(book_idx != -1){
+                myLibrary.splice(book_idx,1);
+                renderbooks();
+            }
+        })
+    })
+
 }
 
-
-// const toggle = document.querySelectorAll(".status");
-// toggle.forEach((button)=> {
-//     button.addEventListener("click" , ()=>{
-//         console.log("sjndcs");
-//         const bookid = button.getAttribute("data-id");
-//         const book = myLibrary.find(b => b.id === bookid);
-//         if(book){
-//             book.isread = !book.isread;
-//             renderbooks();
-//         }
-//     })
-// })
-
-// const del = document.querySelectorAll(".delete");
-// toggle.forEach((button)=> {
-//     button.addEventListener("click" , ()=>{
-//         const bookid = button.getAttribute("data-id");
-//         const book_idx = myLibrary.findIndex(b => b.id === bookid);
-//         if(book_idx != -1){
-//             myLibrary.slice(book_idx,1);
-//             renderbooks();
-//         }
-//     })
-// })
 
 
 renderbooks();
