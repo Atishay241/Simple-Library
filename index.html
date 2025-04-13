@@ -10,7 +10,25 @@
 <body>
     <header class="header">
         <h1>My Library</h1>
-        <button class="add">Add</button>
+        <button class="add" id="open-dialog">New Book</button>
+        <dialog id="dialog-box">
+            <form method="dialog" id="bookform">
+                <h2>Add a Book</h2>
+                <label>Title : <input type="text" name="title" required autofocus></label><br>
+                <label>Author : <input type="text" name="author" required /></label><br/>
+                <label>Pages : <input type="number" name="pages" min="1" required /></label><br/>
+                <label>Status : 
+                    <select name="isRead">
+                        <option value="Read">Read</option>
+                        <option value="Notread">Not Read</option>
+                    </select>
+                </label><br>
+                <button type="submit" class="add">Add Book</button>
+                <button type="button" id="close-dialog" class="add">Cancel</button>
+
+            </form>
+        </dialog>
+        
     </header>
 
     <div class="container">

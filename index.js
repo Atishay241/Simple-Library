@@ -81,7 +81,7 @@ function renderbooks(){
     const del = document.querySelectorAll(".delete");
     del.forEach((button)=> {
         button.addEventListener("click" , ()=>{
-            console.log("dmcdcs");
+            // console.log("dmcdcs");
             const bookid = button.getAttribute("data-id");
             const book_idx = myLibrary.findIndex(b => b.id === bookid);
             if(book_idx != -1){
@@ -93,6 +93,33 @@ function renderbooks(){
 
 }
 
+
+const dialog = document.getElementById("dialog-box");
+const form = document.getElementById("bookform");
+const openBtn = document.getElementById("open-dialog");
+const closeBtn = document.getElementById("close-dialog");
+
+
+openBtn.addEventListener("click", () => dialog.showModal());
+
+
+closeBtn.addEventListener("click", () => dialog.close());
+
+form.addEventListener("submit" , (e)=> {
+    e.preventDefault();
+    const title_new = form.title.value;
+    const author_new = form.author.value;
+    const pages_new = parseInt(form.pages.value);
+    const status_new = form.isRead.value === "Read";
+
+    console.log(title_new);
+    addBookToLibrary(title_new,author_new,pages_new,status_new);
+    renderbooks();
+
+    form.reset();      
+    dialog.close();
+
+})
 
 
 renderbooks();
