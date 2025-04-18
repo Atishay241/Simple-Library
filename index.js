@@ -1,7 +1,4 @@
-const myLibrary = [];
-
-function Book(name,author,pages,isread) {
-  // the constructor...
+function Book(name, author, pages, isread) {
     this.id = crypto.randomUUID();
     this.name = name;
     this.author = author;
@@ -9,31 +6,38 @@ function Book(name,author,pages,isread) {
     this.isread = isread;
 }
 
-function addBookToLibrary(name,author,pages,isread) {
-  // take params, create a book then store it in the array
-    const book = new Book(name,author,pages,isread);
-    myLibrary.push(book);
+function saveToLocalStorage() {
+    localStorage.setItem("libraryData", JSON.stringify(myLibrary));
 }
 
-addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 295, true);
-addBookToLibrary("Atomic Habits", "James Clear", 320, false);
-addBookToLibrary("Jingo", "Terry Pratchett", 464, false);
-addBookToLibrary("The Blade Itself", "Joe Abercrombie", 529, true);
-addBookToLibrary("The Alchemist", "Paulo Coelho", 208, true);
+function loadFromLocalStorage() {
+    const data = localStorage.getItem("libraryData");
+    return data ? JSON.parse(data) : [];
+}
 
+let myLibrary = loadFromLocalStorage();
 
-// console.log(myLibrary);
+if (myLibrary.length === 0) {
+    addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 295, true);
+    addBookToLibrary("Atomic Habits", "James Clear", 320, false);
+    addBookToLibrary("Jingo", "Terry Pratchett", 464, false);
+    addBookToLibrary("The Blade Itself", "Joe Abercrombie", 529, true);
+    addBookToLibrary("The Alchemist", "Paulo Coelho", 208, true);
+}
 
-const container  = document.querySelector(".container");
+function addBookToLibrary(name, author, pages, isread) {
+    const book = new Book(name, author, pages, isread);
+    myLibrary.push(book);
+    saveToLocalStorage();
+}
 
-function renderbooks(){
+const container = document.querySelector(".container");
 
+function renderbooks() {
     container.innerHTML = "";
 
-    myLibrary.forEach((book)=>{
-        console.log(book);
+    myLibrary.forEach((book) => {
         const card = document.createElement("div");
-
         card.classList.add("card");
         card.id = `book-${book.id}`;
 
@@ -57,69 +61,60 @@ function renderbooks(){
         <p class="author"><strong>Author:</strong> ${book.author}</p>
         <p class="page"><strong>Pages:</strong> ${book.pages}</p>
         <div class="icons">
-        <button class="status btn" data-id = "${book.id}">${status}</button>
-        <button class="delete btn" data-id = "${book.id}">${cross}</button>
+        <button class="status btn" data-id="${book.id}">${status}</button>
+        <button class="delete btn" data-id="${book.id}">${cross}</button>
         </div>
-    `;
-        
+        `;
+
         container.appendChild(card);
-    })
+    });
 
     const toggle = document.querySelectorAll(".status");
-    toggle.forEach((button)=> {
-        button.addEventListener("click" , ()=>{
-            // console.log("sjndcs");
+    toggle.forEach((button) => {
+        button.addEventListener("click", () => {
             const bookid = button.getAttribute("data-id");
             const book = myLibrary.find(b => b.id === bookid);
-            if(book){
+            if (book) {
                 book.isread = !book.isread;
+                saveToLocalStorage();
                 renderbooks();
             }
-        })
-    })
+        });
+    });
 
     const del = document.querySelectorAll(".delete");
-    del.forEach((button)=> {
-        button.addEventListener("click" , ()=>{
-            // console.log("dmcdcs");
+    del.forEach((button) => {
+        button.addEventListener("click", () => {
             const bookid = button.getAttribute("data-id");
             const book_idx = myLibrary.findIndex(b => b.id === bookid);
-            if(book_idx != -1){
-                myLibrary.splice(book_idx,1);
+            if (book_idx !== -1) {
+                myLibrary.splice(book_idx, 1);
+                saveToLocalStorage();
                 renderbooks();
             }
-        })
-    })
-
+        });
+    });
 }
-
 
 const dialog = document.getElementById("dialog-box");
 const form = document.getElementById("bookform");
 const openBtn = document.getElementById("open-dialog");
 const closeBtn = document.getElementById("close-dialog");
 
-
 openBtn.addEventListener("click", () => dialog.showModal());
-
-
 closeBtn.addEventListener("click", () => dialog.close());
 
-form.addEventListener("submit" , (e)=> {
+form.addEventListener("submit", (e) => {
     e.preventDefault();
     const title_new = form.title.value;
     const author_new = form.author.value;
     const pages_new = parseInt(form.pages.value);
     const status_new = form.isRead.value === "Read";
 
-    console.log(title_new);
-    addBookToLibrary(title_new,author_new,pages_new,status_new);
+    addBookToLibrary(title_new, author_new, pages_new, status_new);
     renderbooks();
-
-    form.reset();      
+    form.reset();
     dialog.close();
-
-})
-
+});
 
 renderbooks();
